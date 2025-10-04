@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>To-Do List</title>
+        <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input { padding: 5px; }
+        button { padding: 5px 10px; margin-left: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 5px 0; padding: 5px; border: 1px solid #ccc; }
+        #detailView {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #333;
+            display: none;
+        }
+        </style>
+        <script>
+            function addTask() {
+                let input = document.getElementById("taskInput");
+                let task = input.value;
+                if (task === "") return;  
+                
+                // Tạo phần tử <li>
+                let li = document.createElement("li");
+
+                // Tạo span để chứa text
+                let span = document.createElement("span");
+                span.innerText = task;
+                li.appendChild(span);
+
+                // Nút Edit
+                let btnEdit = document.createElement("button");
+                btnEdit.innerText = "Edit";
+                btnEdit.style.marginLeft = "10px";
+                btnEdit.onclick = function() {
+                    let newTask = prompt("Sửa công việc:", span.innerText); 
+                    if (newTask !== null && newTask !== "") {
+                        span.innerText = newTask; 
+                    }
+                };
+
+                // Nút Detail
+                let btnDetail = document.createElement("button");
+                btnDetail.innerText = "Detail";
+                btnDetail.style.marginLeft = "10px";
+                btnDetail.onclick = function() {
+                    showDetail(span.innerText);
+                };
+
+                // Nút Xóa
+                let btnDelete = document.createElement("button");
+                btnDelete.innerText = "Xóa";
+                btnDelete.style.marginLeft = "10px";
+                btnDelete.onclick = function() {
+                    li.remove();
+                };
+                
+                li.appendChild(btnEdit);
+                li.appendChild(btnDetail);
+                li.appendChild(btnDelete);
+
+                document.getElementById("taskList").appendChild(li);
+                
+                input.value = "";
+            }
+
+            function showDetail(taskName) {
+                let detailDiv = document.getElementById("detailView");
+                detailDiv.style.display = "block";
+                document.getElementById("detailTaskName").innerText = taskName;
+                document.getElementById("detailContent").innerText = "";
+                document.getElementById("detailDeadline").innerText = "";
+                document.getElementById("detailNote").innerText = "";
+            }
+        </script>
+    </head>
+    <body>
+        <h1>My To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Nhập việc cần làm">
+        <button onclick="addTask()">Thêm</button>
+        <ul id="taskList"></ul>
+
+        <!-- Màn hình chi tiết -->
+        <div id="detailView">
+            <h2>Chi tiết công việc</h2>
+            <p><b>Tên Task:</b> <span id="detailTaskName"></span></p>
+            <p><b>Nội dung cần làm:</b> <span id="detailContent"></span></p>
+            <p><b>Deadline:</b> <span id="detailDeadline"></span></p>
+            <p><b>Note:</b> <span id="detailNote"></span></p>
+        </div>
+    </body>
+</html>
